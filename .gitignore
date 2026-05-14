@@ -1,0 +1,50 @@
+# Local environments and credentials
+.env
+.env.*
+*.pem
+*.key
+*.token
+*secret*
+*credential*
+
+# Raw/private data
+data/
+tlog/
+tlogs/
+frames/
+screenshots/
+videos/
+*.tlog
+*.log
+*.jsonl
+
+# Generated experiment artifacts
+cache/
+output/
+runs/
+wandb/
+checkpoints/
+*.pt
+*.pth
+*.safetensors
+*.ckpt
+
+# Explicitly released model artifacts
+!models/epistream-qwen25vl-3b-lora-0428/adapter_model.safetensors
+!models/epistream-qwen25vl-3b-lora-0428/regression_head.pt
+!models/epistream-qwen25vl-3b-lora-0428/boundary_head.pt
+
+# Python/build noise
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+
+# OS/editor noise
+.DS_Store
+.vscode/
+.idea/
