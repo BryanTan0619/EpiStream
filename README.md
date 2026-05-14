@@ -20,6 +20,12 @@ credentials are intentionally excluded from the public release.
 
 For the shortest path to the paper numbers, start with `REPRODUCE.md`.
 
+## Method Overview
+
+<p align="center">
+  <img src="assets/method_overview.png" alt="Method overview" width="850">
+</p>
+
 ## Repository Structure
 
 ```text
