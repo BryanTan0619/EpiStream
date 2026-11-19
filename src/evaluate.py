@@ -623,7 +623,7 @@ def main():
                              "Use with --match_id to select a specific match.")
     parser.add_argument("--match_id", default=None,
                         help="Match ID to extract from --realtime_result file "
-                             "(e.g. 7578333527687976403_2778393426)")
+                             "(e.g. example_match_001)")
     args = parser.parse_args()
 
     input_path = args.input

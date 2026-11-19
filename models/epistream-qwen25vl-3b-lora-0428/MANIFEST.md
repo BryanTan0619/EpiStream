@@ -1,20 +1,13 @@
-# EpiStream 0428 Best Checkpoint
+# EpiStream 0428 Checkpoint Manifest
 
-Source checkpoint:
+Base model — `Qwen/Qwen2.5-VL-3B-Instruct`
 
-`output/vlm_method2_regression_adv_memory_schema_vlm_v1_0428/best_model`
+| File | Contents |
+| --- | --- |
+| `adapter_model.safetensors` | LoRA adapter weights |
+| `adapter_config.json` | PEFT configuration and upstream model identifier |
+| `regression_head.pt` | Commit-advantage regression head |
+| `boundary_head.pt` | Auxiliary peak classification head |
+| Tokenizer files and `chat_template.jinja` | Tokenizer configuration and chat template |
 
-Base model:
-
-`Qwen/Qwen2.5-VL-3B-Instruct`
-
-Included artifacts:
-
-- `adapter_model.safetensors`: LoRA adapter weights
-- `adapter_config.json`: sanitized PEFT adapter config
-- `regression_head.pt`: commit-advantage regression head
-- `boundary_head.pt`: auxiliary peak/boundary classification head
-- tokenizer files saved with the checkpoint
-
-This directory intentionally does not include raw tlog data, screenshots,
-training JSONL files, intermediate checkpoints, or API credentials.
+Use [the reproduction guide](../../REPRODUCE.md) to score saved segmentations.

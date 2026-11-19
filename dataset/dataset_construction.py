@@ -36,10 +36,6 @@ BOUNDARY_TOLERANCE = 1.5
 MIN_WINDOW_SECS = 5.0
 NUM_PREV_WINDOWS = 2
 
-TEST_MATCH_IDS = {
-    "7578333527687976403_2778393426",
-}
-
 TRIGGER_EVENT_MAP = {
     "敌人进入视野": "enemy_seen",
     "射击武器": "shot_fired",
@@ -669,13 +665,23 @@ def main():
     parser.add_argument("--output_dir", type=str, 
                        default="../dataset_v1/output_intelligent",
                        help="Output directory")
+    parser.add_argument("--test_match_ids_file", default=os.environ.get("TEST_MATCH_IDS_FILE"),
+                       help="Local text file with one held-out match ID per line")
     parser.add_argument("--test_only", action="store_true",
                        help="Process only test set matches")
     
     args = parser.parse_args()
-    
+    if not args.test_match_ids_file:
+        parser.error("provide --test_match_ids_file or set TEST_MATCH_IDS_FILE")
+    try:
+        with open(args.test_match_ids_file, encoding="utf-8") as split_file:
+            test_ids = {line.strip() for line in split_file if line.strip()}
+    except (OSError, UnicodeError) as exc:
+        parser.error(f"cannot read held-out match list: {exc}")
+    if not test_ids:
+        parser.error("the held-out match list is empty")
+
     output_dir = os.path.join(PROJECT_DIR, args.output_dir.lstrip("../"))
-    os.makedirs(output_dir, exist_ok=True)
     
     print("="*80)
     print("🧠 Intelligent Sampling Dataset Construction")
@@ -689,13 +695,13 @@ def main():
     
     cache_map = load_memory_cache_matches()
     if not cache_map:
-        print(f"\n❌ Memory cache not found or empty: {MEMORY_CACHE_PATH}")
-        return
-    
-    all_match_ids = set(cache_map.keys())
-    
-    test_ids = all_match_ids & TEST_MATCH_IDS
-    train_val_ids = all_match_ids - TEST_MATCH_IDS
+        parser.error(f"memory cache not found or empty: {MEMORY_CACHE_PATH}")
+
+    all_match_ids = set(cache_map)
+    if test_ids - all_match_ids:
+        parser.error("one or more held-out match IDs are absent from the memory cache")
+    train_val_ids = all_match_ids - test_ids
+    os.makedirs(output_dir, exist_ok=True)
     
     train_val_list = sorted(train_val_ids)
     split_idx = int(len(train_val_list) * 0.8)

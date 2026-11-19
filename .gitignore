@@ -17,6 +17,7 @@ videos/
 *.tlog
 *.log
 *.jsonl
+held_out_match_ids.txt
 
 # Generated experiment artifacts
 cache/
